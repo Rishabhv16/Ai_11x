@@ -1,0 +1,1143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AI Business Tools </title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #5e2b97;
+    --primary-light: #9a4dff;
+    --secondary: #ff6b6b;
+    --accent: #4ecdc4;
+    --dark: #2d3047;
+    --light: #f8f9fa;
+    --text: #333333;
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --muted: #6b7280;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .site-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(93, 43, 151, 0.1);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .logo-blob {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(93, 43, 151, 0.3);
+    transition: transform 0.3s ease;
+  }
+  
+  .logo-blob:hover {
+    transform: scale(1.05);
+  }
+  
+  .brand h1 {
+    font-size: 20px;
+    margin: 0;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
+  
+  nav {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  
+  nav a {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+  
+  nav a:hover {
+    color: var(--primary);
+  }
+  
+  nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--primary);
+    transition: width 0.3s ease;
+  }
+  
+  nav a:hover::after {
+    width: 100%;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .btn {
+    border: 0;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn.primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(93, 43, 151, 0.3);
+  }
+  
+  .btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(93, 43, 151, 0.4);
+  }
+  
+  .btn.ghost {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid rgba(93, 43, 151, 0.2);
+  }
+  
+  .btn.ghost:hover {
+    background: rgba(93, 43, 151, 0.05);
+    transform: translateY(-1px);
+  }
+
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 60px 0;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .hero-title {
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  
+  .hero-subtitle {
+    font-size: 20px;
+    margin-bottom: 30px;
+    max-width: 700px;
+    opacity: 0.9;
+    font-weight: 400;
+  }
+  
+  .hero-stats {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+  }
+  
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  
+  .stat-label {
+    font-size: 14px;
+    opacity: 0.8;
+  }
+
+  /* Page container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+  }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    background: var(--light);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(93, 43, 151, 0.05);
+  }
+  
+  .search {
+    flex: 1;
+    min-width: 240px;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid rgba(93, 43, 151, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .search:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(93, 43, 151, 0.1);
+  }
+  
+  .search input {
+    border: 0;
+    outline: 0;
+    padding: 8px;
+    font-size: 15px;
+    width: 100%;
+    background: transparent;
+  }
+  
+  .tag-list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .filter-tag {
+    padding: 10px 16px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid rgba(93, 43, 151, 0.1);
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .filter-tag:hover {
+    border-color: var(--primary-light);
+    color: var(--primary);
+  }
+  
+  .filter-tag.active {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(93, 43, 151, 0.3);
+  }
+
+  /* Dropdown filter */
+  .dropdown-filter {
+    position: relative;
+    min-width: 160px;
+  }
+  
+  .dropdown-select {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid rgba(93, 43, 151, 0.1);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235e2b97' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .dropdown-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(93, 43, 151, 0.1);
+    outline: none;
+  }
+
+  /* Section card panel */
+  .panel {
+    background: var(--light);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(93, 43, 151, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .panel:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .panel h2 {
+    color: var(--primary);
+    font-size: 24px;
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+  
+  .panel p {
+    color: var(--muted);
+    margin: 0 0 20px;
+    font-size: 15px;
+  }
+
+  /* grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  /* card */
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid rgba(93, 43, 151, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 220px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border-color: rgba(93, 43, 151, 0.2);
+  }
+  
+  .card:hover::before {
+    transform: scaleX(1);
+  }
+  
+  .card-top {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: rgba(93, 43, 151, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--primary);
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(93, 43, 151, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover .logo {
+    transform: scale(1.05);
+  }
+  
+  .logo img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+  }
+  
+  .title {
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--dark);
+  }
+  
+  .meta-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  
+  .rating {
+    color: #f59e0b;
+    font-weight: 700;
+  }
+  
+  .rating .stars {
+    color: #f59e0b;
+    margin-right: 6px;
+  }
+  
+  .price {
+    color: #374151;
+    font-weight: 600;
+  }
+  
+  .users {
+    color: var(--muted);
+    font-size: 13px;
+    margin-left: auto;
+  }
+  
+  .desc {
+    color: #4b5563;
+    font-size: 14px;
+    min-height: 40px;
+    line-height: 1.5;
+  }
+  
+  .chips {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .chip {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    background: rgba(93, 43, 151, 0.05);
+    color: var(--primary);
+    font-weight: 500;
+  }
+  
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    color: var(--muted);
+    background: #fff;
+    border: 1px solid rgba(93, 43, 151, 0.1);
+  }
+  
+  .badge.deal {
+    color: var(--accent);
+    border-color: rgba(78, 205, 196, 0.2);
+    background: rgba(78, 205, 196, 0.05);
+    font-weight: 700;
+  }
+  
+  .badge.featured {
+    color: #8b5cf6;
+    border-color: rgba(139, 92, 246, 0.2);
+    background: rgba(139, 92, 246, 0.05);
+    font-weight: 700;
+  }
+  
+  .card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    gap: 8px;
+  }
+  
+  .foot-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  
+  .visit {
+    border: 1px solid var(--primary);
+    background: white;
+    color: var(--primary);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .visit:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(93, 43, 151, 0.3);
+  }
+  
+  .dealbtn {
+    border: 1px solid var(--accent);
+    background: white;
+    color: var(--accent);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .dealbtn:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+  }
+  
+  .bookmark {
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.2s ease;
+  }
+  
+  .bookmark:hover {
+    color: var(--primary);
+  }
+
+  /* small helpers */
+  .small {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  
+  .editors {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* footer */
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 40px;
+    border-top: 1px solid rgba(93, 43, 151, 0.1);
+  }
+
+  /* responsive */
+  @media (max-width: 1200px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 880px) {
+    .container {
+      padding: 0 16px;
+    }
+    .header-inner {
+      padding: 0 6px;
+    }
+    nav {
+      gap: 16px;
+    }
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .hero-title {
+      font-size: 36px;
+    }
+    .hero-subtitle {
+      font-size: 18px;
+    }
+  }
+  
+  @media (max-width: 680px) {
+    .brand h1 {
+      display: none;
+    }
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .search {
+      min-width: 100%;
+    }
+    .tag-list {
+      justify-content: center;
+    }
+    .header-inner {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    nav {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .hero-stats {
+      flex-direction: column;
+      gap: 15px;
+    }
+    .dropdown-filter {
+      min-width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="logo-blob">F</div>
+        <h1>AI Business Tools</h1>
+      </div>
+
+      <nav>
+        <a href="#">Events & Investor Circle</a>
+        <a href="#">Free Tools</a>
+        <a href="#">Pay Per Use</a>
+        <a href="#">skill Programs</a>
+      </nav>
+
+      <div class="actions">
+        <button class="btn ghost">Login</button>
+        <button class="btn primary">Join For Free</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">AI Business Tools — Curated Collections</h1>
+      <p class="hero-subtitle">Browse tools across Website Builders, Marketing, Finance, Project Management, Social Media, Education, E-commerce, SEO, Customer Support, HR, Sales, Stock Trading, Legal, Teachers, Startup tools and Real Estate.</p>
+      
+      <div class="hero-stats">
+        
+        <div class="stat">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Available</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">4.4★</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <!-- controls -->
+    <div class="controls">
+      <div class="search" role="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="opacity:.6;margin-right:10px">
+          <path d="M21 21l-4.35-4.35" stroke="#5e2b97" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="11" cy="11" r="6" stroke="#5e2b97" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <input id="searchInput" placeholder="Search tools, tags, descriptions..." />
+      </div>
+
+      <div class="dropdown-filter">
+        <select id="priceFilter" class="dropdown-select">
+          <option value="all">All Pricing</option>
+          <option value="Free">Free</option>
+          <option value="Freemium">Freemium</option>
+          <option value="Paid">Paid</option>
+          <option value="Contact for Pricing">Contact for Pricing</option>
+          <option value="Free Trial">Free Trial</option>
+        </select>
+      </div>
+
+      <div class="tag-list" id="tagList">
+        <div class="filter-tag active" data-tag="all">All</div>
+        <div class="filter-tag" data-tag="website builders">Website Builders</div>
+        <div class="filter-tag" data-tag="marketing">Marketing</div>
+        <div class="filter-tag" data-tag="finance">Finance</div>
+        <div class="filter-tag" data-tag="project management">Project Management</div>
+        <div class="filter-tag" data-tag="social media">Social Media</div>
+      </div>
+    </div>
+
+    <!-- panels (will be rendered by JS) -->
+    <div id="panels"></div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2023 AI Business Tools. All rights reserved.</p>
+  </footer>
+
+<script>
+/*
+  Data model: groups -> tools
+  Each tool: name, rating, count, priceLabel, users, desc, tags[], editorsPick(bool), deal(bool), featured(bool), url, logo
+*/
+const DATA = [
+  {
+    group: "Website Builders",
+    desc: "Quickly create and customize websites with these intuitive tools.",
+    tools: [
+      { name:"TurnCage", rating:5, count:1, priceLabel:"Freemium", users:null, desc:"Effortlessly create SEO-optimized websites with AI guidance.", tags:["website builders","SEO","startup tools"], editorsPick:false, deal:false, featured:false, url:"https://turncage.com", logo:null },
+      { name:"Hostinger AI Website Builder", rating:0, count:0, priceLabel:"Paid", users:null, desc:"Effortlessly design stunning websites with AI-driven simplicity.", tags:["website builders","design generators","marketing"], editorsPick:false, deal:false, featured:false, url:"https://www.hostinger.com/website-builder", logo:null },
+      { name:"Durable.co", rating:4.33, count:9, priceLabel:"Freemium", users:2979, desc:"AI-driven platform for rapid website, brand, and invoice creation.", tags:["website builders","marketing","SEO"], editorsPick:true, deal:false, featured:false, url:"https://durable.co", logo:null },
+      { name:"Wix ADI", rating:0, count:0, priceLabel:"Freemium", users:null, desc:"Transform your ideas into a professional website effortlessly with our intuitive, AI-driven design tool – no technical skills needed!", tags:["website builders"], editorsPick:false, deal:false, featured:false, url:"https://www.wix.com/adi", logo:null }
+    ]
+  },
+  {
+    group: "Marketing",
+    desc: "Automate and optimize marketing campaigns.",
+    tools: [
+      { name:"CREATOR AI", rating:5, count:3, priceLabel:"Free Trial", users:null, desc:"Efficiently generates personalized, high-quality content for creators.", tags:["marketing","social media","writing generators"], editorsPick:false, deal:false, featured:false, url:"https://creatorapp.ai", logo:null },
+      { name:"HubSpot", rating:0, count:0, priceLabel:"Free Trial", users:null, desc:"Unify marketing, sales, CRM; AI-driven insights—boost efficiency.", tags:["marketing","sales assistant","customer support"], editorsPick:false, deal:false, featured:false, url:"https://www.hubspot.com", logo:null },
+      { name:"Hootsuite", rating:0, count:0, priceLabel:"Free Trial", users:null, desc:"Streamline, schedule, analyze, and engage on social media.", tags:["marketing","social media"], editorsPick:false, deal:false, featured:false, url:"https://hootsuite.com", logo:null },
+      { name:"Frase", rating:0, count:0, priceLabel:"Paid", users:null, desc:"Boost content creation and SEO with AI-driven writing, analysis, and optimization.", tags:["SEO","marketing","copywriting"], editorsPick:false, deal:false, featured:false, url:"https://www.frase.io", logo:null }
+    ]
+  },
+  {
+    group: "Finance",
+    desc: "Streamline financial processes and analysis.",
+    tools: [
+      { name:"Lido", rating:5, count:6, priceLabel:"Paid", users:null, desc:"Streamlines PDF-to-Excel conversion for finance teams.", tags:["finance","spreadsheets","legal"], editorsPick:false, deal:false, featured:false, url:"https://www.lido.app", logo:null },
+      { name:"Vic.ai", rating:0, count:0, priceLabel:"Contact for Pricing", users:null, desc:"Revolutionize accounting with AI-driven invoice automation and insights.", tags:["finance","workflows","ai agents"], editorsPick:false, deal:false, featured:false, url:"https://vic.ai", logo:null },
+      { name:"Booke AI", rating:3, count:2, priceLabel:"Free Trial", users:null, desc:"Revolutionizes bookkeeping with AI-driven automation and accuracy.", tags:["finance","customer support","spreadsheets"], editorsPick:false, deal:false, featured:false, url:"https://booke.ai", logo:null },
+      { name:"Anaplan", rating:0, count:0, priceLabel:"Contact for Pricing", users:null, desc:"Revolutionize planning: Connect, model, and forecast across all business areas.", tags:["finance","human resources","sales assistant"], editorsPick:false, deal:false, featured:false, url:"https://www.anaplan.com", logo:null }
+    ]
+  },
+  {
+    group: "Project Management",
+    desc: "Enhance team collaboration and efficiency.",
+    tools: [
+      { name:"Flash", rating:0, count:0, priceLabel:"Freemium", users:null, desc:"AI platform automates tasks, optimizes scheduling, enhances collaboration.", tags:["email assistant","personal assistant","workflows"], editorsPick:false, deal:false, featured:false, url:"https://flashapp.ai", logo:null },
+      { name:"ClickUp", rating:0, count:0, priceLabel:"Freemium", users:null, desc:"Streamline tasks, docs, and collaboration effortlessly.", tags:["project management","workflows","marketing"], editorsPick:false, deal:false, featured:false, url:"https://clickup.com", logo:null },
+      { name:"Asana", rating:0, count:0, priceLabel:"Free Trial", users:null, desc:"Streamline teamwork, manage projects, automate tasks efficiently.", tags:["project management","workflows"], editorsPick:false, deal:false, featured:false, url:"https://asana.com", logo:null },
+      { name:"Trello", rating:0, count:0, priceLabel:"Freemium", users:null, desc:"Streamline teamwork with visual boards, automation, and mobile apps.", tags:["project management","workflows"], editorsPick:false, deal:false, featured:false, url:"https://trello.com", logo:null }
+    ]
+  },
+  {
+    group: "Social Media",
+    desc: "Elevate social media presence using AI-driven content and analytics.",
+    tools: [
+      { name:"enso", rating:0, count:0, priceLabel:"Free Trial", users:null, desc:"Easy-to-use business AI Agents adapt to your business needs.", tags:["social media","ai agents"], editorsPick:false, deal:false, featured:false, url:"https://enso.ai", logo:null },
+      { name:"Sprout Social", rating:0, count:0, priceLabel:"Paid", users:null, desc:"Enhance engagement, manage content, and gather insights with advanced analytics.", tags:["marketing","social media"], editorsPick:false, deal:false, featured:false, url:"https://sproutsocial.com", logo:null },
+      { name:"Brandwatch", rating:0, count:0, priceLabel:"Contact for Pricing", users:null, desc:"Harness AI for market insights and strategic social media management.", tags:["marketing","social media","research"], editorsPick:false, deal:false, featured:false, url:"https://www.brandwatch.com", logo:null },
+      { name:"Buffer", rating:5, count:1, priceLabel:"Freemium", users:null, desc:"Streamline social media management, analyze engagement, automate scheduling.", tags:["social media","marketing"], editorsPick:false, deal:false, featured:false, url:"https://buffer.com", logo:null }
+    ]
+  },
+  {
+    group: "Education",
+    desc: "Revolutionize learning experiences with personalized, AI-enhanced educational tools.",
+    tools: [
+      { name:"Unreal Speech", rating:5, count:1, priceLabel:"Freemium", users:null, desc:"Transform text into lifelike, customizable voiceovers effortlessly.", tags:["text to speech","research"], editorsPick:false, deal:false, featured:false, url:"https://unrealspeech.com", logo:null },
+      { name:"Grammarly", rating:0, count:0, priceLabel:"Freemium", users:null, desc:"Elevate writing with real-time grammar, tone, and plagiarism checks.", tags:["writing generators","education"], editorsPick:false, deal:false, featured:false, url:"https://www.grammarly.com", logo:null },
+      { name:"Coursera", rating:0, count:0, priceLabel:"Contact for Pricing", users:null, desc:"Unlock learning: courses, degrees, and certificates online.", tags:["education","students"], editorsPick:false, deal:false, featured:false, url:"https://www.coursera.org", logo:null },
+      { name:"Duolingo", rating:0, count:0, priceLabel:"Freemium", users:null, desc:"Master new languages with gamified, personalized learning.", tags:["education","students"], editorsPick:false, deal:false, featured:false, url:"https://www.duolingo.com", logo:null }
+    ]
+  },
+  {
+    group: "E-commerce",
+    desc: "AI-driven solutions for smarter e-commerce management and growth.",
+    tools: [
+      { name:"Aidelly", rating:0, count:0, priceLabel:"Freemium", users:null, desc:"AI-driven tool streamlining marketing with automation and analytics.", tags:["marketing","e-commerce"], editorsPick:false, deal:false, featured:false, url:"https://aidelly.com", logo:null },
+      { name:"Drift", rating:0, count:0, priceLabel:"Contact", users:null, desc:"AI-driven platform for real-time customer engagement and sales automation.", tags:["marketing","ai chatbots"], editorsPick:false, deal:false, featured:false, url:"https://www.drift.com", logo:null },
+      { name:"ViSenze", rating:0, count:0, priceLabel:"Contact", users:null, desc:"Revolutionize e-commerce with AI-driven smart search and insights.", tags:["fashion","search engine"], editorsPick:false, deal:false, featured:false, url:"https://www.visenze.com", logo:null },
+      { name:"Algolia", rating:0, count:0, priceLabel:"Freemium", users:null, desc:"AI-powered search, instant results, customizable, scalable.", tags:["search engine","e-commerce"], editorsPick:false, deal:false, featured:false, url:"https://www.algolia.com", logo:null }
+    ]
+  },
+  {
+    group: "SEO",
+    desc: "Optimize organic presence with AI-powered SEO tools.",
+    tools: [
+      { name:"Blaze", rating:5, count:2, priceLabel:"Free Trial", users:null, desc:"AI-driven platform streamlining brand-aligned content creation effortlessly.", tags:["marketing","SEO"], editorsPick:false, deal:false, featured:false, url:"https://blaze.ai", logo:null },
+      { name:"MarketMuse", rating:0, count:0, priceLabel:"Freemium", users:null, desc:"Revolutionize content strategy with AI-driven research, planning, and optimization.", tags:["SEO","research"], editorsPick:false, deal:false, featured:false, url:"https://www.marketmuse.com", logo:null },
+      { name:"Clearscope", rating:0, count:0, priceLabel:"Paid", users:null, desc:"Revolutionize SEO with AI-driven content optimization and seamless tool integration.", tags:["SEO"], editorsPick:false, deal:false, featured:false, url:"https://www.clearscope.io", logo:null },
+      { name:"Durable.co", rating:4.33, count:9, priceLabel:"Freemium", users:2979, desc:"AI-driven platform for rapid website, brand, and invoice creation.", tags:["website builders","marketing","SEO"], editorsPick:true, deal:false, featured:false, url:"https://durable.co", logo:null }
+    ]
+  },
+  {
+    group: "Customer Support",
+    desc: "Improve customer experience with AI-powered support and chatbots.",
+    tools: [
+      { name:"CustomGPT.ai", rating:5, count:10, priceLabel:"Contact for Pricing", users:102, desc:"Cut Support Costs in Half with AI that Auto-Resolves 93% of Questions", tags:["customer support","ai chatbots","ai agents"], editorsPick:false, deal:true, featured:true, url:"https://customgpt.ai", logo:null },
+      { name:"Intercom", rating:0, count:0, priceLabel:"Free Trial", users:14, desc:"Revolutionize customer service with AI-driven, omnichannel support platform.", tags:["customer support","ai agents","ai chatbots"], editorsPick:true, deal:false, featured:false, url:"https://www.intercom.com", logo:null },
+      { name:"Ada", rating:0, count:0, priceLabel:"Contact for Pricing", users:14, desc:"Revolutionize customer service with AI across all digital platforms.", tags:["customer support","ai agents","e-commerce"], editorsPick:true, deal:false, featured:false, url:"https://www.ada.cx", logo:null },
+      { name:"Zendesk", rating:0, count:0, priceLabel:"Free Trial", users:17, desc:"Streamline customer service with AI, analytics, and omnichannel support.", tags:["customer support","ai chatbots","workflows"], editorsPick:true, deal:false, featured:false, url:"https://www.zendesk.com", logo:null }
+    ]
+  },
+  {
+    group: "Human Resources",
+    desc: "Tools for streamlined hiring, training, and HR management.",
+    tools: [
+      { name:"HeyMilo AI", rating:5, count:2, priceLabel:"Contact for Pricing", users:8, desc:"Revolutionize hiring with AI-driven automated voice interviews.", tags:["human resources","ai chatbots","ai agents"], editorsPick:false, deal:false, featured:false, url:"https://heymilo.ai", logo:null },
+      { name:"Eightfold", rating:5, count:1, priceLabel:"Contact for Pricing", users:10, desc:"AI-driven platform optimizing recruitment, retention, and workforce planning.", tags:["human resources"], editorsPick:true, deal:false, featured:false, url:"https://eightfold.ai", logo:null },
+      { name:"Hirevue", rating:0, count:0, priceLabel:"Contact for Pricing", users:6, desc:"Transform hiring: AI-driven video interviews, global candidate reach.", tags:["human resources","video generators","ai agents"], editorsPick:true, deal:false, featured:false, url:"https://www.hirevue.com", logo:null },
+      { name:"Paradox", rating:0, count:0, priceLabel:"Contact for Pricing", users:14, desc:"Automate hiring, streamline communication, integrate seamlessly.", tags:["human resources","ai chatbots","workflows"], editorsPick:true, deal:false, featured:false, url:"https://paradox.ai", logo:null }
+    ]
+  },
+  {
+    group: "Sales Assistant",
+    desc: "Boost sales strategies with AI-driven insights and automation.",
+    tools: [
+      { name:"Splutter AI", rating:5, count:1, priceLabel:"Contact for Pricing", users:19, desc:"Streamline business operations with AI-driven chatbots and automation.", tags:["ai chatbots","customer support","sales assistant"], editorsPick:false, deal:false, featured:false, url:"https://splutter.ai", logo:null },
+      { name:"Gong", rating:0, count:0, priceLabel:"Contact for Pricing", users:18, desc:"Transform sales data into actionable insights, optimize revenue growth.", tags:["sales assistant","customer support","marketing"], editorsPick:true, deal:false, featured:false, url:"https://www.gong.io", logo:null },
+      { name:"Chorus", rating:0, count:0, priceLabel:"Contact for Pricing", users:15, desc:"Transform sales conversations into actionable insights with AI-driven analytics.", tags:["sales assistant","customer support","marketing"], editorsPick:true, deal:false, featured:false, url:"https://chorus.ai", logo:null },
+      { name:"Outreach", rating:0, count:0, priceLabel:"Contact for Pricing", users:14, desc:"Optimize sales, enhance workflows, boost efficiency with AI-powered tools.", tags:["sales assistant","customer support","workflows"], editorsPick:true, deal:false, featured:false, url:"https://www.outreach.io", logo:null }
+    ]
+  },
+  {
+    group: "Stock Trading",
+    desc: "AI-driven tools for smarter, data-based stock trading decisions.",
+    tools: [
+      { name:"MarketAlerts.ai", rating:5, count:1, priceLabel:"Contact for Pricing", users:14, desc:"AI-powered tool delivers real-time market alerts and insights.", tags:["finance","stock trading","research"], editorsPick:false, deal:false, featured:false, url:"https://marketalerts.ai", logo:null },
+      { name:"Trade Ideas", rating:0, count:0, priceLabel:"Freemium", users:16, desc:"Revolutionize trading with AI-driven signals and real-time scanning.", tags:["stock trading","finance","education"], editorsPick:true, deal:false, featured:false, url:"https://www.trade-ideas.com", logo:null },
+      { name:"Danelfin", rating:5, count:1, priceLabel:"Freemium", users:27, desc:"AI-driven stock analytics platform optimizing investment strategies.", tags:["stock trading","finance","research"], editorsPick:true, deal:false, featured:false, url:"https://danelfin.com", logo:null },
+      { name:"Trendspider", rating:0, count:0, priceLabel:"Paid", users:81, desc:"AI Powered Trading Tool", tags:["stock trading","finance","research"], editorsPick:true, deal:false, featured:false, url:"https://www.trendspider.com", logo:null }
+    ]
+  },
+  {
+    group: "Legal",
+    desc: "AI for efficient legal document processing and compliance checks.",
+    tools: [
+      { name:"Cimphony", rating:5, count:1, priceLabel:"Paid", users:57, desc:"AI-driven tool streamlines legal tasks for SMBs and startups.", tags:["legal","human resources","startup tools"], editorsPick:false, deal:false, featured:false, url:"https://cimphony.com", logo:null },
+      { name:"Casetext", rating:5, count:1, priceLabel:"Free Trial", users:80, desc:"Revolutionizes legal work with AI: research, document review, contract analysis, timeline creation.", tags:["legal","research"], editorsPick:true, deal:false, featured:false, url:"https://casetext.com", logo:null },
+      { name:"Harvey", rating:0, count:0, priceLabel:"Contact for Pricing", users:14, desc:"Transforms legal workflows with AI-driven document handling and research.", tags:["legal","research","workflows"], editorsPick:true, deal:false, featured:false, url:"https://www.harvey.ai", logo:null },
+      { name:"Relativity", rating:0, count:0, priceLabel:"Contact for Pricing", users:5, desc:"Revolutionize data discovery and case strategy with AI-driven, secure technology.", tags:["legal","workflows","research"], editorsPick:true, deal:false, featured:false, url:"https://www.relativity.com", logo:null }
+    ]
+  },
+  {
+    group: "Teachers",
+    desc: "Cultivate a Future-Ready Classroom with AI.",
+    tools: [
+      { name:"SoBrief", rating:5, count:1, priceLabel:"Freemium", users:62, desc:"73,530 free book summaries in 40 languages (with paid audio).", tags:["summarizer","education","text to speech"], editorsPick:false, deal:false, featured:false, url:"https://sobrief.com", logo:null },
+      { name:"Turnitin", rating:0, count:0, priceLabel:"Contact for Pricing", users:17, desc:"Enhances academic integrity, detects plagiarism, provides comprehensive feedback.", tags:["research","ai detection","teachers"], editorsPick:true, deal:false, featured:false, url:"https://www.turnitin.com", logo:null },
+      { name:"Loom", rating:0, count:0, priceLabel:"Free Trial", users:11, desc:"Enhance communication with video messaging, editing, and AI integration.", tags:["video editing","teachers","sales assistant"], editorsPick:true, deal:false, featured:false, url:"https://www.loom.com", logo:null },
+      { name:"Quizlet", rating:0, count:0, priceLabel:"Freemium", users:20, desc:"Enhance learning with AI-driven flashcards, tests, and games.", tags:["education","students","teachers"], editorsPick:true, deal:false, featured:false, url:"https://quizlet.com", logo:null }
+    ]
+  },
+  {
+    group: "Startup Tools",
+    desc: "Empower your start-up with specialized AI tools and insights.",
+    tools: [
+      { name:"Cimphony", rating:5, count:1, priceLabel:"Paid", users:57, desc:"AI-driven tool streamlines legal tasks for SMBs and startups.", tags:["legal","human resources","startup tools"], editorsPick:false, deal:false, featured:false, url:"https://cimphony.com", logo:null },
+      { name:"Durable.co", rating:4.33, count:9, priceLabel:"Freemium", users:2979, desc:"AI-driven platform for rapid website, brand, and invoice creation.", tags:["website builders","marketing","SEO"], editorsPick:true, deal:false, featured:false, url:"https://durable.co", logo:null },
+      { name:"Stratup.ai", rating:5, count:3, priceLabel:"Free", users:323, desc:"Revolutionize startup ideation with AI-driven, market-trend savvy, personalized idea generation.", tags:["startup tools","ai agents","research"], editorsPick:true, deal:false, featured:false, url:"https://stratup.ai", logo:null },
+      { name:"GitMind AI", rating:4, count:2, priceLabel:"Free Trial", users:256, desc:"AI-enhanced mind mapping for dynamic collaboration and creativity.", tags:["project management","presentations","summarizer"], editorsPick:true, deal:false, featured:false, url:"https://gitmind.ai", logo:null }
+    ]
+  },
+  {
+    group: "Real Estate",
+    desc: "AI tools to revolutionize property search and real estate deals.",
+    tools: [
+      { name:"Redactable", rating:0, count:0, priceLabel:"Paid", users:11, desc:"Automated AI tool for fast, secure document redaction.", tags:["legal","finance","real estate"], editorsPick:false, deal:false, featured:false, url:"https://redactable.com", logo:null },
+      { name:"Smart Targeting", rating:0, count:0, priceLabel:"Paid", users:10, desc:"Predictive analytics and automated real estate marketing tool.", tags:["real estate","marketing","sales assistant"], editorsPick:true, deal:false, featured:false, url:"https://smarttargeting.com", logo:null },
+      { name:"HouseCanary", rating:0, count:0, priceLabel:"Freemium", users:15, desc:"Revolutionizing real estate with AI-driven analytics and data accuracy.", tags:["real estate","finance","workflows"], editorsPick:true, deal:false, featured:false, url:"https://www.housecanary.com", logo:null },
+      { name:"Offrs", rating:0, count:0, priceLabel:"Contact for Pricing", users:9, desc:"Revolutionize real estate with AI-driven lead prediction and management.", tags:["real estate","marketing","sales assistant"], editorsPick:true, deal:false, featured:false, url:"https://offrs.com", logo:null }
+    ]
+  }
+];
+
+// Logo mapping with reliable image URLs
+const LOGO_MAP = {
+  "TurnCage": "https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/v1484570276/tyt0wq2yqo7oyv5gqj0c.png",
+  "Hostinger AI Website Builder": "https://www.hostinger.com/assets/images/hostinger-logo.svg",
+  "Durable.co": "https://durable.co/images/durable-logo.svg",
+  "Wix ADI": "https://www.wix.com/favicon.ico",
+  "CREATOR AI": "https://creatorapp.ai/favicon.ico",
+  "HubSpot": "https://www.hubspot.com/hubfs/HubSpot_Logos/HSLogo_color.svg",
+  "Hootsuite": "https://hootsuite.com/favicon.ico",
+  "Frase": "https://www.frase.io/favicon.ico",
+  "Lido": "https://www.lido.app/favicon.ico",
+  "Vic.ai": "https://vic.ai/favicon.ico",
+  "Booke AI": "https://booke.ai/favicon.ico",
+  "Anaplan": "https://www.anaplan.com/favicon.ico",
+  "Flash": "https://flashapp.ai/favicon.ico",
+  "ClickUp": "https://clickup.com/favicon.ico",
+  "Asana": "https://asana.com/favicon.ico",
+  "Trello": "https://trello.com/favicon.ico",
+  "enso": "https://enso.ai/favicon.ico",
+  "Sprout Social": "https://sproutsocial.com/favicon.ico",
+  "Brandwatch": "https://www.brandwatch.com/favicon.ico",
+  "Buffer": "https://buffer.com/favicon.ico",
+  "Unreal Speech": "https://unrealspeech.com/favicon.ico",
+  "Grammarly": "https://www.grammarly.com/favicon.ico",
+  "Coursera": "https://www.coursera.org/favicon.ico",
+  "Duolingo": "https://www.duolingo.com/favicon.ico",
+  "Aidelly": "https://aidelly.com/favicon.ico",
+  "Drift": "https://www.drift.com/favicon.ico",
+  "ViSenze": "https://www.visenze.com/favicon.ico",
+  "Algolia": "https://www.algolia.com/favicon.ico",
+  "Blaze": "https://blaze.ai/favicon.ico",
+  "MarketMuse": "https://www.marketmuse.com/favicon.ico",
+  "Clearscope": "https://www.clearscope.io/favicon.ico",
+  "CustomGPT.ai": "https://customgpt.ai/favicon.ico",
+  "Intercom": "https://www.intercom.com/favicon.ico",
+  "Ada": "https://www.ada.cx/favicon.ico",
+  "Zendesk": "https://www.zendesk.com/favicon.ico",
+  "HeyMilo AI": "https://heymilo.ai/favicon.ico",
+  "Eightfold": "https://eightfold.ai/favicon.ico",
+  "Hirevue": "https://www.hirevue.com/favicon.ico",
+  "Paradox": "https://paradox.ai/favicon.ico",
+  "Splutter AI": "https://splutter.ai/favicon.ico",
+  "Gong": "https://www.gong.io/favicon.ico",
+  "Chorus": "https://chorus.ai/favicon.ico",
+  "Outreach": "https://www.outreach.io/favicon.ico",
+  "MarketAlerts.ai": "https://marketalerts.ai/favicon.ico",
+  "Trade Ideas": "https://www.trade-ideas.com/favicon.ico",
+  "Danelfin": "https://danelfin.com/favicon.ico",
+  "Trendspider": "https://www.trendspider.com/favicon.ico",
+  "Cimphony": "https://cimphony.com/favicon.ico",
+  "Casetext": "https://casetext.com/favicon.ico",
+  "Harvey": "https://www.harvey.ai/favicon.ico",
+  "Relativity": "https://www.relativity.com/favicon.ico",
+  "SoBrief": "https://sobrief.com/favicon.ico",
+  "Turnitin": "https://www.turnitin.com/favicon.ico",
+  "Loom": "https://www.loom.com/favicon.ico",
+  "Quizlet": "https://quizlet.com/favicon.ico",
+  "Stratup.ai": "https://stratup.ai/favicon.ico",
+  "GitMind AI": "https://gitmind.ai/favicon.ico",
+  "Redactable": "https://redactable.com/favicon.ico",
+  "Smart Targeting": "https://smarttargeting.com/favicon.ico",
+  "HouseCanary": "https://www.housecanary.com/favicon.ico",
+  "Offrs": "https://offrs.com/favicon.ico"
+};
+
+// --- Main Rendering Logic ---
+const panelsEl = document.getElementById('panels');
+const searchInput = document.getElementById('searchInput');
+const tagListEl = document.getElementById('tagList');
+const priceFilterEl = document.getElementById('priceFilter');
+
+function renderPanels(data) {
+  panelsEl.innerHTML = '';
+
+  data.forEach(group => {
+    if (group.tools.length === 0) return;
+
+    const panel = document.createElement('section');
+    panel.className = 'panel';
+
+    panel.innerHTML = `
+      <h2>${group.group}</h2>
+      <p>${group.desc}</p>
+      <div class="grid"></div>
+    `;
+
+    const grid = panel.querySelector('.grid');
+
+    group.tools.forEach(tool => {
+      const card = document.createElement('article');
+      card.className = 'card';
+      
+      // Get logo URL from mapping or use tool's logo
+      const logoUrl = LOGO_MAP[tool.name] || tool.logo;
+      
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="logo">
+            ${logoUrl ? 
+              `<img src="${logoUrl}" alt="${escapeHtml(tool.name)}" onerror="this.style.display='none'; this.parentElement.innerHTML='${escapeHtml(tool.name.charAt(0))}'; this.parentElement.style.color='var(--primary)'; this.parentElement.style.fontWeight='700';">` : 
+              escapeHtml(tool.name.charAt(0))
+            }
+          </div>
+          <div style="flex:1">
+            <div class="title">${escapeHtml(tool.name)}</div>
+            <div class="meta-row" style="margin-top:6px">
+              <div class="rating">${renderStars(tool.rating)} ${tool.rating ? tool.rating.toFixed(1) : ''}</div>
+              <div class="price">${escapeHtml(tool.priceLabel)}</div>
+              <div class="users">${tool.users ? tool.users.toLocaleString() : ''}</div>
+            </div>
+          </div>
+        </div>
+        <div class="desc">${escapeHtml(tool.desc)}</div>
+        <div class="chips">${tool.tags.map(t=>`<span class="chip">#${escapeHtml(t)}</span>`).join('')}</div>
+        <div class="card-foot">
+          <div class="foot-left">
+            ${ tool.editorsPick ? `<span class="editors">🏅 Editor's Pick</span>` : '' }
+            ${ tool.deal ? `<span class="badge deal">💚 Active deal</span>` : '' }
+            ${ tool.featured ? `<span class="badge featured">⭐ Featured</span>` : '' }
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="bookmark" title="Add bookmark">🔖</button>
+            ${ tool.deal ? `<button class="dealbtn" data-url="${tool.url}">Get Deal</button>` : `<button class="visit" data-url="${tool.url}">Visit</button>` }
+          </div>
+        </div>
+      `;
+      
+      // Bookmark handler
+      const bookmarkBtn = card.querySelector('.bookmark');
+      bookmarkBtn.addEventListener('click', ()=> {
+        bookmarkBtn.textContent = '🔖✓';
+        bookmarkBtn.style.color = 'var(--primary)';
+      });
+      
+      // Visit / Deal handler
+      const actionBtn = card.querySelector('[data-url]');
+      actionBtn && actionBtn.addEventListener('click', (e)=> {
+        const url = e.currentTarget.getAttribute('data-url') || '#';
+        if(url && url !== '#') {
+          window.open(url, '_blank', 'noopener');
+        }
+      });
+
+      grid.appendChild(card);
+    });
+
+    panelsEl.appendChild(panel);
+  });
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, (m)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m]));
+}
+
+function renderStars(r){
+  if(!r || r<=0) return '☆☆☆☆☆';
+  const full = Math.floor(r);
+  const half = (r - full) >= 0.5 ? 1 : 0;
+  let out = '';
+  for(let i=0;i<full;i++) out += '★';
+  if(half) out += '☆';
+  while(out.length < 5) out += '☆';
+  return out;
+}
+
+// --- Filtering Logic (Search + Tags + Price) ---
+function applyFilters(){
+  const q = (searchInput.value||'').trim().toLowerCase();
+  const activeTag = document.querySelector('.filter-tag.active')?.dataset.tag || 'all';
+  const activePrice = priceFilterEl.value || 'all';
+  
+  const filtered = DATA.map(group=>{
+    const filteredTools = group.tools.filter(t=>{
+      // tag filter
+      const tagMatch = activeTag === 'all' ? true : (t.tags.join(' ').toLowerCase().includes(activeTag));
+      // price filter
+      const priceMatch = activePrice === 'all' ? true : (t.priceLabel === activePrice);
+      // search filter: name, desc, tags
+      const searchText = (t.name + ' ' + t.desc + ' ' + t.tags.join(' ')).toLowerCase();
+      const searchMatch = q ? searchText.includes(q) : true;
+      return tagMatch && priceMatch && searchMatch;
+    });
+    return {...group, tools:filteredTools};
+  }).filter(g=>g.tools.length>0);
+  
+  renderPanels(filtered);
+}
+
+// tag clicks
+tagListEl.addEventListener('click', (e)=>{
+  const tag = e.target.closest('.filter-tag');
+  if(!tag) return;
+  document.querySelectorAll('.filter-tag').forEach(t=>t.classList.remove('active'));
+  tag.classList.add('active');
+  applyFilters();
+});
+
+// search input
+searchInput.addEventListener('input', applyFilters);
+
+// price filter
+priceFilterEl.addEventListener('change', applyFilters);
+
+// initial render
+renderPanels(DATA);
+</script>
+</body>
+</html>

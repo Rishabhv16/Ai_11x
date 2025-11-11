@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AI Image Tools </title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #5e2b97;
+    --primary-light: #9a4dff;
+    --secondary: #ff6b6b;
+    --accent: #4ecdc4;
+    --dark: #2d3047;
+    --light: #f8f9fa;
+    --text: #333333;
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --muted: #6b7280;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .site-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(93, 43, 151, 0.1);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .logo-blob {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(93, 43, 151, 0.3);
+    transition: transform 0.3s ease;
+  }
+  
+  .logo-blob:hover {
+    transform: scale(1.05);
+  }
+  
+  .brand h1 {
+    font-size: 20px;
+    margin: 0;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
+  
+  nav {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  
+  nav a {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+  
+  nav a:hover {
+    color: var(--primary);
+  }
+  
+  nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--primary);
+    transition: width 0.3s ease;
+  }
+  
+  nav a:hover::after {
+    width: 100%;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .btn {
+    border: 0;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn.primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(93, 43, 151, 0.3);
+  }
+  
+  .btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(93, 43, 151, 0.4);
+  }
+  
+  .btn.ghost {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid rgba(93, 43, 151, 0.2);
+  }
+  
+  .btn.ghost:hover {
+    background: rgba(93, 43, 151, 0.05);
+    transform: translateY(-1px);
+  }
+
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 60px 0;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .hero-title {
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  
+  .hero-subtitle {
+    font-size: 20px;
+    margin-bottom: 30px;
+    max-width: 700px;
+    opacity: 0.9;
+    font-weight: 400;
+  }
+  
+  .hero-stats {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+  }
+  
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  
+  .stat-label {
+    font-size: 14px;
+    opacity: 0.8;
+  }
+
+  /* Page container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+  }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    background: var(--light);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(93, 43, 151, 0.05);
+  }
+  
+  .search {
+    flex: 1;
+    min-width: 240px;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid rgba(93, 43, 151, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .search:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(93, 43, 151, 0.1);
+  }
+  
+  .search input {
+    border: 0;
+    outline: 0;
+    padding: 8px;
+    font-size: 15px;
+    width: 100%;
+    background: transparent;
+  }
+  
+  .tag-list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .filter-tag {
+    padding: 10px 16px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid rgba(93, 43, 151, 0.1);
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .filter-tag:hover {
+    border-color: var(--primary-light);
+    color: var(--primary);
+  }
+  
+  .filter-tag.active {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(93, 43, 151, 0.3);
+  }
+
+  /* Dropdown filter */
+  .dropdown-filter {
+    position: relative;
+    min-width: 160px;
+  }
+  
+  .dropdown-select {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid rgba(93, 43, 151, 0.1);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235e2b97' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .dropdown-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(93, 43, 151, 0.1);
+    outline: none;
+  }
+
+  /* Section card panel */
+  .panel {
+    background: var(--light);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(93, 43, 151, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .panel:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .panel h2 {
+    color: var(--primary);
+    font-size: 24px;
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+  
+  .panel p {
+    color: var(--muted);
+    margin: 0 0 20px;
+    font-size: 15px;
+  }
+
+  /* grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  /* card */
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid rgba(93, 43, 151, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 220px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border-color: rgba(93, 43, 151, 0.2);
+  }
+  
+  .card:hover::before {
+    transform: scaleX(1);
+  }
+  
+  .card-top {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: rgba(93, 43, 151, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--primary);
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(93, 43, 151, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover .logo {
+    transform: scale(1.05);
+  }
+  
+  .logo img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+  }
+  
+  .title {
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--dark);
+  }
+  
+  .meta-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  
+  .rating {
+    color: #f59e0b;
+    font-weight: 700;
+  }
+  
+  .rating .stars {
+    color: #f59e0b;
+    margin-right: 6px;
+  }
+  
+  .price {
+    color: #374151;
+    font-weight: 600;
+  }
+  
+  .users {
+    color: var(--muted);
+    font-size: 13px;
+    margin-left: auto;
+  }
+  
+  .desc {
+    color: #4b5563;
+    font-size: 14px;
+    min-height: 40px;
+    line-height: 1.5;
+  }
+  
+  .chips {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .chip {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    background: rgba(93, 43, 151, 0.05);
+    color: var(--primary);
+    font-weight: 500;
+  }
+  
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    color: var(--muted);
+    background: #fff;
+    border: 1px solid rgba(93, 43, 151, 0.1);
+  }
+  
+  .badge.deal {
+    color: var(--accent);
+    border-color: rgba(78, 205, 196, 0.2);
+    background: rgba(78, 205, 196, 0.05);
+    font-weight: 700;
+  }
+  
+  .badge.featured {
+    color: #8b5cf6;
+    border-color: rgba(139, 92, 246, 0.2);
+    background: rgba(139, 92, 246, 0.05);
+    font-weight: 700;
+  }
+  
+  .card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    gap: 8px;
+  }
+  
+  .foot-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  
+  .visit {
+    border: 1px solid var(--primary);
+    background: white;
+    color: var(--primary);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .visit:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(93, 43, 151, 0.3);
+  }
+  
+  .bookmark {
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.2s ease;
+  }
+  
+  .bookmark:hover {
+    color: var(--primary);
+  }
+
+  /* small helpers */
+  .small {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  
+  .editors {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* footer */
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 40px;
+    border-top: 1px solid rgba(93, 43, 151, 0.1);
+  }
+
+  /* responsive */
+  @media (max-width: 1200px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 880px) {
+    .container {
+      padding: 0 16px;
+    }
+    .header-inner {
+      padding: 0 6px;
+    }
+    nav {
+      gap: 16px;
+    }
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .hero-title {
+      font-size: 36px;
+    }
+    .hero-subtitle {
+      font-size: 18px;
+    }
+  }
+  
+  @media (max-width: 680px) {
+    .brand h1 {
+      display: none;
+    }
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .search {
+      min-width: 100%;
+    }
+    .tag-list {
+      justify-content: center;
+    }
+    .header-inner {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    nav {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .hero-stats {
+      flex-direction: column;
+      gap: 15px;
+    }
+    .dropdown-filter {
+      min-width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="logo-blob">I</div>
+        <h1>AI Image Tools</h1>
+      </div>
+
+      <nav>
+        <a href="#">AI Tools</a>
+        <a href="#">AI for Business</a>
+        <a href="#">AI Courses</a>
+        <a href="#">Resources</a>
+      </nav>
+
+      <div class="actions">
+        <button class="btn ghost">Login</button>
+        <button class="btn primary">Join For Free</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title"> AI Image Tools to Easily Create Vivid Visuals</h1>
+      <p class="hero-subtitle">Explore the synergy of art and AI with image tools, transforming your ideas into visual masterpieces. These tools redefine digital creativity, allowing you to convert text prompts into detailed images, pushing artistic boundaries.</p>
+      
+      <div class="hero-stats">
+        
+        <div class="stat">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Available</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">4.8★</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <!-- controls -->
+    <div class="controls">
+      <div class="search" role="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="opacity:.6;margin-right:10px">
+          <path d="M21 21l-4.35-4.35" stroke="#5e2b97" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="11" cy="11" r="6" stroke="#5e2b97" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <input id="searchInput" placeholder="Search tools, tags, descriptions..." />
+      </div>
+
+      <div class="dropdown-filter">
+        <select id="priceFilter" class="dropdown-select">
+          <option value="all">All Pricing</option>
+          <option value="Free">Free</option>
+          <option value="Freemium">Freemium</option>
+          <option value="Paid">Paid</option>
+          <option value="Contact for Pricing">Contact for Pricing</option>
+        </select>
+      </div>
+
+      <div class="tag-list" id="tagList">
+        <div class="filter-tag active" data-tag="all">All</div>
+        <div class="filter-tag" data-tag="text to image">Text to Image</div>
+        <div class="filter-tag" data-tag="image generators">Image Generators</div>
+        <div class="filter-tag" data-tag="image editing">Image Editing</div>
+        <div class="filter-tag" data-tag="design generators">Design Generators</div>
+        <div class="filter-tag" data-tag="logo generator">Logo Generator</div>
+      </div>
+    </div>
+
+    <!-- panels (will be rendered by JS) -->
+    <div id="panels"></div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2023 AI Image Tools. All rights reserved.</p>
+  </footer>
+<script>
+/*
+  Data model: groups -> tools
+  Each tool: name, rating, count, priceLabel, users, desc, tags[], editorsPick(bool), deal(bool), url, logo
+*/
+const DATA = [
+  {
+    group: "Design Generators",
+    groupUrl: "Design_Generators.html",
+    desc: "Craft unique designs instantly with AI's creative intelligence.",
+    tools: [
+      { name:"Adobe Firefly", rating:4.8, count:124, priceLabel:"Paid", users:200, desc:"Transform text into vibrant images and designs, boosting creativity effortlessly.", tags:["image generators","design generators","text to image"], editorsPick:true, deal:false, url:"https://www.adobe.com/products/firefly.html", logo:"https://upload.wikimedia.org/wikipedia/commons/6/68/Adobe_Firefly_logo.svg" },
+      { name:"Jasper Art", rating:4.5, count:89, priceLabel:"Paid", users:20, desc:"Transform text into stunning, royalty-free images instantly.", tags:["text to image","image generators","design generators"], editorsPick:true, deal:false, url:"https://www.jasper.ai", logo:"https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/v1476970525/yp9xwfxdq4kzq0jqjbtz.png" },
+      { name:"Midjourney", rating:4.7, count:256, priceLabel:"Paid", users:3630, desc:"Unlock true digital artistry with advanced AI image generation.", tags:["text to image","image editing","video generators"], editorsPick:true, deal:false, url:"https://www.midjourney.com", logo:"https://cdn.icon-icons.com/icons2/3911/PNG/512/midjourney_logo_icon_248819.png" },
+      { name:"Looka", rating:4.3, count:67, priceLabel:"Paid", users:2874, desc:"AI-driven branding: logos, websites, and full identity kits.", tags:["logo generator","design generators"], editorsPick:true, deal:false, url:"https://looka.com", logo:"https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_4e6b2e2e6a6b0c1e5d5a5f5a5d5a5f5a/logo.png" }
+    ]
+  },
+  {
+    group: "Image Generators",
+    groupUrl: "Image_Generators.html",
+    desc: "Generate custom images using AI's advanced creative algorithms.",
+    tools: [
+      { name:"DALL·E 3", rating:4.9, count:312, priceLabel:"Contact for Pricing", users:46, desc:"Generate stunning images from text with advanced AI technology.", tags:["text to image","image generators","design generators"], editorsPick:true, deal:false, url:"https://openai.com/dall-e-3", logo:"https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" },
+      { name:"Stable Diffusion", rating:4.6, count:189, priceLabel:"Freemium", users:1763, desc:"Generate stunning images from text with this AI tool.", tags:["image generators","text to image","design generators"], editorsPick:true, deal:false, url:"https://stability.ai", logo:"https://upload.wikimedia.org/wikipedia/commons/1/1e/Stable_Diffusion_logo.svg" },
+      { name:"Leonardo AI", rating:4.4, count:78, priceLabel:"Freemium", users:892, desc:"Create amazing artwork and designs with AI-powered tools.", tags:["image generators","design generators"], editorsPick:true, deal:false, url:"https://leonardo.ai", logo:"https://leonardo.ai/cdn-cgi/image/width=300,quality=75/images/landing/leonardo-logo.png" },
+      { name:"DreamStudio", rating:4.2, count:45, priceLabel:"Paid", users:567, desc:"Create beautiful AI-generated images with Stable Diffusion.", tags:["text to image","image generators"], editorsPick:false, deal:false, url:"https://dreamstudio.ai", logo:"https://dreamstudio.ai/favicon.ico" }
+    ]
+  },
+  {
+    group: "Image Editing",
+    groupUrl: "Image_Editing.html",
+    desc: "Edit images professionally with AI's intuitive editing tools.",
+    tools: [
+      { name:"Adobe Photoshop", rating:4.8, count:423, priceLabel:"Paid", users:18, desc:"Master image editing, AI, 3D design, and more.", tags:["image editing","image generators","design generators"], editorsPick:true, deal:false, url:"https://www.adobe.com/products/photoshop.html", logo:"https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg" },
+      { name:"Canva", rating:4.7, count:567, priceLabel:"Freemium", users:12500, desc:"Design anything with AI-powered tools and templates.", tags:["image editing","design generators"], editorsPick:true, deal:false, url:"https://www.canva.com", logo:"https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" },
+      { name:"Remove.bg", rating:4.5, count:234, priceLabel:"Freemium", users:4500, desc:"Remove image backgrounds automatically with AI.", tags:["image editing"], editorsPick:true, deal:false, url:"https://www.remove.bg", logo:"https://www.remove.bg/favicon-32x32.png" },
+      { name:"Runway ML", rating:4.3, count:89, priceLabel:"Paid", users:1200, desc:"Advanced AI video and image editing tools for creators.", tags:["image editing","video editing"], editorsPick:true, deal:false, url:"https://runwayml.com", logo:"https://runwayml.com/favicon.ico" }
+    ]
+  },
+  {
+    group: "Text to Image",
+    groupUrl: "Text_to_Image.html",
+    desc: "Turn text descriptions into vivid images with AI technology.",
+    tools: [
+      { name:"Midjourney", rating:4.7, count:256, priceLabel:"Paid", users:3630, desc:"Unlock true digital artistry with advanced AI image generation.", tags:["text to image","image editing","video generators"], editorsPick:true, deal:false, url:"https://www.midjourney.com", logo:"https://cdn.icon-icons.com/icons2/3911/PNG/512/midjourney_logo_icon_248819.png" },
+      { name:"DALL·E 3", rating:4.9, count:312, priceLabel:"Contact for Pricing", users:46, desc:"Generate stunning images from text with advanced AI technology.", tags:["text to image","image generators","design generators"], editorsPick:true, deal:false, url:"https://openai.com/dall-e-3", logo:"https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" },
+      { name:"Stable Diffusion", rating:4.6, count:189, priceLabel:"Freemium", users:1763, desc:"Generate stunning images from text with this AI tool.", tags:["image generators","text to image","design generators"], editorsPick:true, deal:false, url:"https://stability.ai", logo:"https://upload.wikimedia.org/wikipedia/commons/1/1e/Stable_Diffusion_logo.svg" },
+      { name:"Craiyon", rating:4.1, count:67, priceLabel:"Freemium", users:890, desc:"Free AI image generator that creates images from text prompts.", tags:["text to image","image generators"], editorsPick:false, deal:false, url:"https://www.craiyon.com", logo:"https://www.craiyon.com/favicon.ico" }
+    ]
+  }
+];
+
+const LOGO_MAP = {
+  "Adobe Firefly": "https://upload.wikimedia.org/wikipedia/commons/6/68/Adobe_Firefly_logo.svg",
+  "Jasper Art": "https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/v1476970525/yp9xwfxdq4kzq0jqjbtz.png",
+  "Midjourney": "https://cdn.icon-icons.com/icons2/3911/PNG/512/midjourney_logo_icon_248819.png",
+  "Looka": "https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_4e6b2e2e6a6b0c1e5d5a5f5a5d5a5f5a/logo.png",
+  "DALL·E 3": "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg",
+  "Stable Diffusion": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Stable_Diffusion_logo.svg",
+  "Leonardo AI": "https://leonardo.ai/cdn-cgi/image/width=300,quality=75/images/landing/leonardo-logo.png",
+  "DreamStudio": "https://dreamstudio.ai/favicon.ico",
+  "Adobe Photoshop": "https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg",
+  "Canva": "https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg",
+  "Remove.bg": "https://www.remove.bg/favicon-32x32.png",
+  "Runway ML": "https://runwayml.com/favicon.ico",
+  "Craiyon": "https://www.craiyon.com/favicon.ico"
+};
+
+// --- Main Rendering Logic ---
+const panelsEl = document.getElementById('panels');
+const searchInput = document.getElementById('searchInput');
+const tagListEl = document.getElementById('tagList');
+const priceFilterEl = document.getElementById('priceFilter');
+
+function renderPanels(data) {
+  panelsEl.innerHTML = '';
+
+  data.forEach(group => {
+    if (group.tools.length === 0) return;
+
+    const panel = document.createElement('section');
+    panel.className = 'panel';
+
+    // clickable heading if groupUrl exists
+    const groupHeading = group.groupUrl
+      ? `<a href="${group.groupUrl}" style="text-decoration:none; color:inherit;">${group.group}</a>`
+      : group.group;
+
+    panel.innerHTML = `
+      <h2>${groupHeading}</h2>
+      <p>${group.desc}</p>
+      <div class="grid"></div>
+    `;
+
+    const grid = panel.querySelector('.grid');
+
+    group.tools.forEach(tool => {
+      const card = document.createElement('article');
+      card.className = 'card';
+
+      const logoUrl = LOGO_MAP[tool.name] || tool.logo;
+
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="logo">
+            ${
+              logoUrl
+                ? `<img src="${logoUrl}" alt="${escapeHtml(tool.name)}" onerror="this.style.display='none'; this.parentElement.innerHTML='${escapeHtml(tool.name.charAt(0))}'; this.parentElement.style.color='var(--primary)'; this.parentElement.style.fontWeight='700';">`
+                : escapeHtml(tool.name.charAt(0))
+            }
+          </div>
+          <div style="flex:1">
+            <div class="title">${escapeHtml(tool.name)}</div>
+            <div class="meta-row" style="margin-top:6px">
+              <span class="rating"><span class="stars">★</span> ${tool.rating}</span>
+              <span class="small">(${tool.count})</span>
+              <span class="price">${tool.priceLabel}</span>
+              <span class="users">${formatNumber(tool.users)} users</span>
+            </div>
+          </div>
+        </div>
+        <div class="desc">${escapeHtml(tool.desc)}</div>
+        <div class="chips">
+          ${tool.tags.map(tag => `<span class="chip">${escapeHtml(tag)}</span>`).join('')}
+        </div>
+        <div class="card-foot">
+          <div class="foot-left">
+            ${tool.editorsPick ? '<span class="badge editors">Editors\' Pick</span>' : ''}
+            ${tool.deal ? '<span class="badge deal">Deal</span>' : ''}
+          </div>
+          <div>
+            <button class="visit" onclick="window.open('${tool.url}', '_blank')">Visit</button>
+          </div>
+        </div>
+      `;
+
+      grid.appendChild(card);
+    });
+
+    panelsEl.appendChild(panel);
+  });
+}
+
+// --- Filtering Logic ---
+let activeTag = 'all';
+let activePrice = 'all';
+let searchQuery = '';
+
+function filterData() {
+  const filteredData = DATA.map(group => ({
+    ...group,
+    tools: group.tools.filter(tool => {
+      const matchesTag = activeTag === 'all' || tool.tags.includes(activeTag);
+      const matchesPrice = activePrice === 'all' || tool.priceLabel === activePrice;
+      const matchesSearch = searchQuery === '' || 
+        tool.name.toLowerCase().includes(searchQuery) || 
+        tool.desc.toLowerCase().includes(searchQuery) ||
+        tool.tags.some(tag => tag.toLowerCase().includes(searchQuery));
+      
+      return matchesTag && matchesPrice && matchesSearch;
+    })
+  }));
+
+  renderPanels(filteredData);
+}
+
+// --- Event Listeners ---
+searchInput.addEventListener('input', (e) => {
+  searchQuery = e.target.value.toLowerCase();
+  filterData();
+});
+
+priceFilterEl.addEventListener('change', (e) => {
+  activePrice = e.target.value;
+  filterData();
+});
+
+tagListEl.addEventListener('click', (e) => {
+  if (e.target.classList.contains('filter-tag')) {
+    document.querySelectorAll('.filter-tag').forEach(tag => {
+      tag.classList.remove('active');
+    });
+    e.target.classList.add('active');
+    activeTag = e.target.dataset.tag;
+    filterData();
+  }
+});
+
+// --- Helper Functions ---
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function formatNumber(num) {
+  if (num >= 1000) {
+    return (num / 1000).toFixed(1) + 'k';
+  }
+  return num;
+}
+
+// --- Initial Render ---
+renderPanels(DATA);
+</script>
+</body>
+</html>
